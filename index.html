@@ -749,27 +749,36 @@ const API = 'http://localhost:3001';
 let events = [];
 
 async function loadFromApi() {
+  // 1) すぐにSEED_EVENTSで描画（GitHub Pages / オフライン対応）
+  events = SEED_EVENTS;
+  renderCalendar(); renderList(); renderUpcoming();
+
+  // 2) ローカルサーバーに非同期接続を試みる
   try {
-    const r = await fetch(API + '/api/health');
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), 2000); // 2秒でタイムアウト
+    const r = await fetch(API + '/api/health', { signal: controller.signal });
+    clearTimeout(tid);
     const h = await r.json();
-    document.getElementById('api-dot').className = 'api-dot ok';
-    document.getElementById('api-status-text').textContent = `接続済み (${h.events}件)`;
 
-    // Load events
+    // サーバーに接続できた場合
     const evRes = await fetch(API + '/api/events');
-    events = await evRes.json();
+    let serverEvents = await evRes.json();
 
-    // If empty, seed with hardcoded data
-    if (events.length === 0) await seedEvents();
+    if (serverEvents.length === 0) {
+      await seedEvents();
+      const evRes2 = await fetch(API + '/api/events');
+      serverEvents = await evRes2.json();
+    }
 
+    events = serverEvents;
+    document.getElementById('api-dot').className = 'api-dot ok';
     document.getElementById('api-status-text').textContent = `接続済み (${events.length}件)`;
     renderCalendar(); renderList(); renderUpcoming();
   } catch(e) {
+    // オフラインモード（GitHub Pages等）
     document.getElementById('api-dot').className = 'api-dot';
-    document.getElementById('api-status-text').textContent = 'オフライン';
-    // Use hardcoded seed data when server is offline
-    events = SEED_EVENTS;
-    renderCalendar(); renderList(); renderUpcoming();
+    document.getElementById('api-status-text').textContent = 'オフライン (26件)';
   }
 }
 
