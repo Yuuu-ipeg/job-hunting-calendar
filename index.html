@@ -1201,8 +1201,12 @@ setInterval(async () => {
   } catch {}
 }, 30000);
 
-// Init
-loadFromApi();
+// Init — 同期的に即座描画してからAPIに接続
+events = SEED_EVENTS;
+renderCalendar();
+renderList();
+renderUpcoming();
+loadFromApi(); // 非同期でサーバーと同期
 </script>
 </body>
 </html>
