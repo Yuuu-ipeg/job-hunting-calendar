@@ -169,6 +169,81 @@
   }
   .mypage-search:focus { border-color: var(--accent); }
 
+  /* ===== 新規追加ボタン ===== */
+  .add-event-btn {
+    padding: 7px 16px;
+    background: linear-gradient(135deg, #10b981, #38bdf8);
+    border: none; border-radius: 10px;
+    color: white; font-size: 12px; font-weight: 800;
+    cursor: pointer; white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(16,185,129,0.4);
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .add-event-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  /* ===== 編集・削除ボタン ===== */
+  .btn-edit {
+    background: rgba(99,102,241,0.15);
+    border: 1px solid rgba(99,102,241,0.4);
+    color: #818cf8;
+    padding: 8px 16px; border-radius: 9px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-edit:hover { background: rgba(99,102,241,0.3); }
+  .btn-danger {
+    background: rgba(239,68,68,0.12);
+    border: 1px solid rgba(239,68,68,0.35);
+    color: #f87171;
+    padding: 8px 16px; border-radius: 9px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-danger:hover { background: rgba(239,68,68,0.25); }
+
+  /* ===== 編集フォーム ===== */
+  .ef-row { margin-bottom: 12px; }
+  .ef-two { display: flex; gap: 12px; }
+  .ef-label {
+    display: block; font-size: 11px; font-weight: 700;
+    color: var(--text2); margin-bottom: 5px; letter-spacing: 0.3px;
+  }
+  .ef-input, .ef-select, .ef-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    color: var(--text);
+    font-size: 13px;
+    padding: 9px 12px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .ef-input:focus, .ef-select:focus, .ef-textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+  }
+  .ef-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2394a3b8'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 28px; cursor: pointer; }
+  .ef-textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+  .ef-toggle { display: flex; align-items: center; gap: 8px; margin-top: 9px; cursor: pointer; }
+  .ef-toggle input { display: none; }
+  .ef-toggle-track {
+    width: 38px; height: 20px;
+    background: var(--surface2); border-radius: 999px;
+    border: 1.5px solid var(--border);
+    position: relative; transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .ef-toggle input:checked + .ef-toggle-track { background: #ef4444; border-color: #ef4444; }
+  .ef-toggle-thumb {
+    position: absolute; top: 2px; left: 2px;
+    width: 14px; height: 14px;
+    background: white; border-radius: 50%;
+    transition: left 0.2s;
+  }
+  .ef-toggle input:checked ~ .ef-toggle-track .ef-toggle-thumb { left: 20px; }
+
   /* API status dot */
   .api-status {
     display: flex; align-items: center; gap: 5px;
@@ -639,6 +714,7 @@
       <div class="account-dot" style="background:#c084fc"></div>
       <span style="color:#94a3b8">jyusuke730</span>
     </div>
+    <button class="add-event-btn" onclick="openAddModal()">＋ 新規追加</button>
     <div class="view-toggle">
       <button class="view-btn active" onclick="switchView('calendar',this)">📅 カレンダー</button>
       <button class="view-btn" onclick="switchView('list',this)">📋 リスト</button>
@@ -837,8 +913,88 @@
     </div>
     <div class="modal-body" id="m-body"></div>
     <div class="modal-footer">
+      <button class="btn btn-danger" id="m-delete-btn" onclick="deleteEvent()" style="display:none">🗑 削除</button>
       <button class="btn btn-secondary" onclick="closeModal()">閉じる</button>
+      <button class="btn btn-edit" id="m-edit-btn" onclick="switchToEditMode()">✏️ 編集</button>
       <button class="btn btn-primary" id="m-mypage-btn" onclick="openMyPage()">📋 マイページを確認</button>
+    </div>
+  </div>
+</div>
+
+<!-- 編集・新規追加モーダル -->
+<div class="modal-overlay" id="edit-modal" onclick="if(event.target.id==='edit-modal')closeEditModal()">
+  <div class="modal" style="max-width:520px">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:10px;flex:1">
+        <div id="edit-modal-icon" style="width:40px;height:40px;background:linear-gradient(135deg,#6366f1,#38bdf8);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px">✏️</div>
+        <div id="edit-modal-title" style="font-size:15px;font-weight:700">イベントを編集</div>
+      </div>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0 20px 4px">
+      <div class="ef-row">
+        <label class="ef-label">📅 日付</label>
+        <input class="ef-input" type="date" id="ef-date"/>
+      </div>
+      <div class="ef-row">
+        <label class="ef-label">🏢 会社名</label>
+        <input class="ef-input" type="text" id="ef-company" placeholder="例: デロイト トーマツ"/>
+      </div>
+      <div class="ef-row">
+        <label class="ef-label">📝 内容</label>
+        <input class="ef-input" type="text" id="ef-desc" placeholder="例: サマーインターン エントリー締切"/>
+      </div>
+      <div class="ef-row ef-two">
+        <div style="flex:1">
+          <label class="ef-label">🏷 カテゴリ</label>
+          <select class="ef-select" id="ef-cat">
+            <option value="consult">💼 コンサル系</option>
+            <option value="shosha">🌐 総合商社</option>
+            <option value="it">💻 IT・テック</option>
+            <option value="finance">🏦 金融・保険</option>
+            <option value="deadline">⏰ 締切</option>
+            <option value="other">📂 その他</option>
+          </select>
+        </div>
+        <div style="flex:1">
+          <label class="ef-label">📊 ステータス</label>
+          <select class="ef-select" id="ef-status">
+            <option value="pre_entry">📌 プレエントリー</option>
+            <option value="entry">✅ エントリー完了</option>
+            <option value="selection">🔄 選考進行中</option>
+            <option value="seminar">📝 セミナー予定</option>
+            <option value="deadline">⏰ 締切・要対応</option>
+            <option value="intern">🎓 インターン</option>
+            <option value="result">📬 選考結果</option>
+          </select>
+        </div>
+      </div>
+      <div class="ef-row">
+        <label class="ef-label">🔗 マイページURL</label>
+        <input class="ef-input" type="url" id="ef-url" placeholder="https://..."/>
+      </div>
+      <div class="ef-row">
+        <label class="ef-label">📋 メモ・詳細</label>
+        <textarea class="ef-textarea" id="ef-detail" placeholder="選考状況・メモを自由に記入..."></textarea>
+      </div>
+      <div class="ef-row ef-two">
+        <div style="flex:1">
+          <label class="ef-label">😊 アイコン</label>
+          <input class="ef-input" type="text" id="ef-icon" placeholder="🏢" style="font-size:18px;text-align:center"/>
+        </div>
+        <div style="flex:1">
+          <label class="ef-label">🚨 要対応フラグ</label>
+          <label class="ef-toggle">
+            <input type="checkbox" id="ef-urgent"/>
+            <span class="ef-toggle-track"><span class="ef-toggle-thumb"></span></span>
+            <span style="font-size:12px;color:var(--text2)">要対応</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeEditModal()">キャンセル</button>
+      <button class="btn btn-primary" onclick="saveEvent()">💾 保存する</button>
     </div>
   </div>
 </div>
@@ -1208,6 +1364,13 @@ function openModal(id){
   mypageBtn.textContent = hasUrl ? '🔗 マイページを開く' : '📋 マイページ（URLなし）';
   mypageBtn.style.opacity = hasUrl ? '1' : '0.5';
 
+  // 編集・削除ボタンにイベントIDをセット
+  const delBtn = document.getElementById('m-delete-btn');
+  const editBtn = document.getElementById('m-edit-btn');
+  delBtn.dataset.eid = id;
+  delBtn.style.display = '';
+  editBtn.style.display = '';
+
   document.getElementById('m-icon').textContent=e.icon;
   document.getElementById('m-icon').style.cssText=`background:${c.bg};color:${c.color};width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0`;
   document.getElementById('m-company').textContent=e.company;
@@ -1239,6 +1402,118 @@ function onDayClick(ds){
 }
 
 function closeModal(){document.getElementById('modal').classList.remove('open');}
+
+// ─── 編集・追加・削除 ──────────────────────────────────────────────────────────
+let editingEventId = null; // null = 新規追加, id = 既存編集
+
+function openAddModal() {
+  editingEventId = null;
+  document.getElementById('edit-modal-title').textContent = '＋ 新規イベントを追加';
+  document.getElementById('edit-modal-icon').textContent = '➕';
+  // フォームをリセット
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('ef-date').value = today;
+  document.getElementById('ef-company').value = '';
+  document.getElementById('ef-desc').value = '';
+  document.getElementById('ef-cat').value = 'consult';
+  document.getElementById('ef-status').value = 'pre_entry';
+  document.getElementById('ef-url').value = '';
+  document.getElementById('ef-detail').value = '';
+  document.getElementById('ef-icon').value = '🏢';
+  document.getElementById('ef-urgent').checked = false;
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function switchToEditMode() {
+  const id = parseInt(document.getElementById('m-delete-btn').dataset.eid);
+  const e = events.find(x => x.id === id); if (!e) return;
+  closeModal();
+  editingEventId = id;
+  document.getElementById('edit-modal-title').textContent = '✏️ イベントを編集';
+  document.getElementById('edit-modal-icon').textContent = e.icon || '✏️';
+  document.getElementById('ef-date').value = e.date;
+  document.getElementById('ef-company').value = e.company;
+  document.getElementById('ef-desc').value = e.desc;
+  document.getElementById('ef-cat').value = e.cat || 'other';
+  document.getElementById('ef-status').value = e.status || 'entry';
+  document.getElementById('ef-url').value = e.url || '';
+  document.getElementById('ef-detail').value = e.detail || '';
+  document.getElementById('ef-icon').value = e.icon || '🏢';
+  document.getElementById('ef-urgent').checked = !!e.urgent;
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function closeEditModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+  editingEventId = null;
+}
+
+async function saveEvent() {
+  const company = document.getElementById('ef-company').value.trim();
+  const date    = document.getElementById('ef-date').value;
+  const desc    = document.getElementById('ef-desc').value.trim();
+  if (!company || !date) { alert('会社名と日付は必須です'); return; }
+
+  const payload = {
+    date,
+    company,
+    desc:   desc || '（内容未入力）',
+    cat:    document.getElementById('ef-cat').value,
+    status: document.getElementById('ef-status').value,
+    url:    document.getElementById('ef-url').value.trim(),
+    detail: document.getElementById('ef-detail').value.trim(),
+    icon:   document.getElementById('ef-icon').value.trim() || '🏢',
+    urgent: document.getElementById('ef-urgent').checked,
+    acc:    'yusuke30730',
+  };
+
+  try {
+    if (editingEventId !== null) {
+      // 更新
+      const r = await fetch(`${API}/api/events/${editingEventId}`, {
+        method: 'PUT', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      const updated = await r.json();
+      const idx = events.findIndex(x => x.id === editingEventId);
+      if (idx !== -1) events[idx] = updated;
+    } else {
+      // 新規
+      const r = await fetch(`${API}/api/events`, {
+        method: 'POST', headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      const created = await r.json();
+      events.push(created);
+    }
+    document.getElementById('api-status-text').textContent = `接続済み (${events.length}件)`;
+  } catch(_) {
+    // オフライン時はローカルだけ更新
+    if (editingEventId !== null) {
+      const idx = events.findIndex(x => x.id === editingEventId);
+      if (idx !== -1) events[idx] = { ...events[idx], ...payload };
+    } else {
+      const newId = Math.max(0, ...events.map(e => e.id || 0)) + 1;
+      events.push({ id: newId, ...payload });
+    }
+  }
+
+  closeEditModal();
+  renderCalendar(); renderList(); renderUpcoming();
+}
+
+async function deleteEvent() {
+  const id = parseInt(document.getElementById('m-delete-btn').dataset.eid);
+  if (!confirm('このイベントを削除しますか？')) return;
+  try {
+    await fetch(`${API}/api/events/${id}`, { method: 'DELETE' });
+  } catch(_) {}
+  events = events.filter(e => e.id !== id);
+  closeModal();
+  renderCalendar(); renderList(); renderUpcoming();
+  document.getElementById('api-status-text').textContent = `接続済み (${events.length}件)`;
+}
+
 function prevMonth(){curDate.setMonth(curDate.getMonth()-1);renderCalendar();}
 function nextMonth(){curDate.setMonth(curDate.getMonth()+1);renderCalendar();}
 function goToday(){const t=new Date();curDate=new Date(t.getFullYear(),t.getMonth(),1);renderCalendar();}
