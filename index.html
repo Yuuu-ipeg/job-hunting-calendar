@@ -1139,7 +1139,7 @@ async function runAiAnalyze() {
     const data = await r.json();
 
     if (data.error) {
-      resultContent.innerHTML = `<div class="ai-result-error">❌ エラー: ${data.error}<br><br>💡 ヒント: ローカルサーバーが起動していない場合は <code>node server.js</code> を実行してください（ANTHROPIC_API_KEY の設定も必要です）</div>`;
+      resultContent.innerHTML = `<div class="ai-result-error">❌ ${data.error}<br><br>💡 <strong>Gemini無料キーの設定方法:</strong><br>① <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#38bdf8">aistudio.google.com</a> でキーを発行（Googleアカウントで無料）<br>② ターミナルで: <code>GEMINI_API_KEY=取得したキー node server.js</code></div>`;
       return;
     }
     if (!data.events || data.events.length === 0) {
@@ -1185,7 +1185,7 @@ async function runAiAnalyze() {
     clearAiImage();
 
   } catch(e) {
-    resultContent.innerHTML = `<div class="ai-result-error">❌ サーバーに接続できません。<br><br>ローカルサーバーを起動してください：<br><code>cd job-hunting-calendar && node server.js</code></div>`;
+    resultContent.innerHTML = `<div class="ai-result-error">❌ サーバーに接続できません。<br><br>① <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#38bdf8">こちら</a>でGemini無料APIキーを発行<br>② ターミナルで: <code>GEMINI_API_KEY=取得したキー node server.js</code></div>`;
   } finally {
     btn.disabled = false;
     btnText.textContent = 'AI解析してカレンダーに追加';
