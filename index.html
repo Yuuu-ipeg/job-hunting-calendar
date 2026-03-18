@@ -169,118 +169,6 @@
   }
   .mypage-search:focus { border-color: var(--accent); }
 
-  /* ===== SNS PANEL ===== */
-  .sns-fab {
-    position: fixed;
-    bottom: 24px; right: 24px;
-    width: 52px; height: 52px;
-    background: linear-gradient(135deg, #6366f1, #38bdf8);
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    font-size: 22px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 20px rgba(99,102,241,0.5);
-    transition: transform 0.2s, box-shadow 0.2s;
-    z-index: 200;
-  }
-  .sns-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(99,102,241,0.7); }
-
-  .sns-panel {
-    position: fixed;
-    bottom: 90px; right: 24px;
-    width: 360px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 18px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    z-index: 200;
-    display: none;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .sns-panel.open { display: flex; }
-  .sns-panel-title {
-    font-size: 13px; font-weight: 700; color: var(--text);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .sns-panel-subtitle { font-size: 11px; color: var(--text2); margin-top: 2px; }
-  .sns-textarea {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    color: var(--text);
-    font-size: 12px;
-    padding: 10px;
-    resize: vertical;
-    min-height: 90px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-  .sns-textarea:focus { border-color: var(--accent); }
-  .sns-image-preview {
-    display: none;
-    position: relative;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .sns-image-preview img { width: 100%; border-radius: 10px; max-height: 160px; object-fit: cover; }
-  .sns-image-preview .remove-img {
-    position: absolute; top: 6px; right: 6px;
-    background: rgba(0,0,0,0.7); color: white;
-    border: none; border-radius: 50%;
-    width: 24px; height: 24px;
-    cursor: pointer; font-size: 12px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .sns-actions { display: flex; gap: 8px; align-items: center; }
-  .sns-upload-btn {
-    padding: 7px 10px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text2);
-    cursor: pointer;
-    font-size: 11px;
-    display: flex; align-items: center; gap: 4px;
-  }
-  .sns-upload-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .sns-analyze-btn {
-    flex: 1;
-    padding: 8px;
-    background: linear-gradient(135deg, #6366f1, #38bdf8);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: 700;
-    font-size: 12px;
-    cursor: pointer;
-    transition: opacity 0.2s;
-  }
-  .sns-analyze-btn:hover { opacity: 0.85; }
-  .sns-analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .sns-result {
-    background: var(--surface2);
-    border-radius: 10px;
-    padding: 10px;
-    font-size: 11px;
-    color: var(--text2);
-    display: none;
-  }
-  .sns-result.show { display: block; }
-  .sns-result-item {
-    padding: 8px;
-    background: var(--surface);
-    border-radius: 8px;
-    margin-bottom: 6px;
-    border-left: 3px solid var(--accent);
-  }
-  .sns-result-company { font-size: 12px; font-weight: 600; color: var(--text); }
-  .sns-result-desc { font-size: 11px; color: var(--text2); margin-top: 2px; }
-
   /* API status dot */
   .api-status {
     display: flex; align-items: center; gap: 5px;
@@ -296,6 +184,184 @@
     transition: background 0.3s;
   }
   .api-dot.ok { background: #10b981; }
+
+  /* ===== AI解析ビュー ===== */
+  .ai-tab-btn {
+    background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(56,189,248,0.2)) !important;
+    border-color: rgba(99,102,241,0.4) !important;
+  }
+  .ai-tab-btn.active {
+    background: linear-gradient(135deg, #6366f1, #38bdf8) !important;
+    color: white !important;
+  }
+  .ai-view-inner {
+    padding: 24px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .ai-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(56,189,248,0.08));
+    border: 1px solid rgba(99,102,241,0.25);
+    border-radius: 16px;
+  }
+  .ai-header-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, #6366f1, #38bdf8);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; flex-shrink: 0;
+  }
+  .ai-header-title { font-size: 18px; font-weight: 700; color: var(--text); }
+  .ai-header-sub { font-size: 12px; color: var(--text2); margin-top: 4px; line-height: 1.5; }
+  .ai-input-area {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .ai-section-label {
+    font-size: 12px; font-weight: 700; color: var(--text2);
+    margin-bottom: 8px;
+    letter-spacing: 0.3px;
+  }
+  .ai-textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 13px;
+    padding: 14px;
+    resize: vertical;
+    min-height: 140px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+    line-height: 1.6;
+  }
+  .ai-textarea:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
+  .ai-drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--surface2);
+  }
+  .ai-drop-zone:hover, .ai-drop-zone.drag-over {
+    border-color: #6366f1;
+    background: rgba(99,102,241,0.07);
+  }
+  .ai-drop-icon { font-size: 28px; margin-bottom: 8px; }
+  .ai-drop-text { font-size: 13px; color: var(--text); font-weight: 600; }
+  .ai-drop-sub { font-size: 11px; color: var(--text2); margin-top: 4px; }
+  .ai-img-preview {
+    display: none;
+    position: relative;
+    margin-top: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .ai-img-preview img { width: 100%; max-height: 220px; object-fit: cover; display: block; }
+  .ai-img-remove {
+    position: absolute; top: 8px; right: 8px;
+    background: rgba(0,0,0,0.75); color: white;
+    border: none; border-radius: 50%;
+    width: 28px; height: 28px;
+    cursor: pointer; font-size: 13px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ai-analyze-btn {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    background: linear-gradient(135deg, #6366f1, #38bdf8);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+  }
+  .ai-analyze-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .ai-analyze-btn:active { transform: translateY(0); }
+  .ai-analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .ai-btn-icon { font-size: 18px; }
+  .ai-result-area {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    animation: fadeIn 0.3s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .ai-result-success {
+    display: flex; align-items: center; gap: 10px;
+    color: #10b981; font-size: 15px; font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .ai-result-card {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+    border-left: 3px solid var(--accent);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .ai-result-icon { font-size: 20px; flex-shrink: 0; }
+  .ai-result-company { font-size: 13px; font-weight: 700; color: var(--text); }
+  .ai-result-meta { font-size: 11px; color: var(--text2); margin-top: 4px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .ai-result-tag { padding: 2px 7px; border-radius: 8px; font-size: 10px; font-weight: 600; }
+  .ai-result-error {
+    color: #ef4444; background: rgba(239,68,68,0.08);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .ai-result-empty {
+    color: var(--text2);
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+  }
+  .ai-guide {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .ai-guide-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+  .ai-guide-items { display: flex; flex-direction: column; gap: 10px; }
+  .ai-guide-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 12px; color: var(--text2); line-height: 1.5;
+  }
+  .ai-guide-num {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #38bdf8);
+    color: white; font-size: 11px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
 
   .header-right { display: flex; align-items: center; gap: 10px; }
 
@@ -577,6 +643,7 @@
       <button class="view-btn active" onclick="switchView('calendar',this)">📅 カレンダー</button>
       <button class="view-btn" onclick="switchView('list',this)">📋 リスト</button>
       <button class="view-btn" onclick="switchView('mypage',this)">🔗 マイページ</button>
+      <button class="view-btn ai-tab-btn" onclick="switchView('ai',this)">🤖 AI解析</button>
     </div>
   </div>
 </header>
@@ -683,6 +750,79 @@
     <div class="list-view" id="mypage-view">
       <div id="mypage-content"></div>
     </div>
+
+    <!-- AI解析ビュー -->
+    <div class="list-view" id="ai-view">
+      <div class="ai-view-inner">
+        <div class="ai-header">
+          <div class="ai-header-icon">🤖</div>
+          <div>
+            <div class="ai-header-title">AI情報解析</div>
+            <div class="ai-header-sub">X・Instagram・メールの文章や画像を貼るだけで、就活情報を自動抽出してカレンダーに追加します</div>
+          </div>
+        </div>
+
+        <div class="ai-input-area">
+          <!-- テキスト入力 -->
+          <div class="ai-section-label">📝 テキストを貼り付け</div>
+          <textarea class="ai-textarea" id="ai-text"
+            placeholder="例)&#10;【3/31締切】〇〇コンサルティング サマーインターンのエントリー受付中！&#10;今すぐ登録→ https://...&#10;&#10;• X(Twitter)のツイートをコピー&#10;• Instagram・LINEの告知文&#10;• メール本文をそのまま貼り付け&#10;• 複数のイベント情報もOK"></textarea>
+
+          <!-- 画像エリア -->
+          <div class="ai-section-label" style="margin-top:16px">🖼 写真を追加（任意）</div>
+          <div class="ai-drop-zone" id="ai-drop-zone"
+            onclick="document.getElementById('ai-file-input').click()"
+            ondragover="event.preventDefault();this.classList.add('drag-over')"
+            ondragleave="this.classList.remove('drag-over')"
+            ondrop="handleAiDrop(event)">
+            <div class="ai-drop-icon">📎</div>
+            <div class="ai-drop-text">クリックまたはドラッグ＆ドロップで画像を追加</div>
+            <div class="ai-drop-sub">スクリーンショット・告知画像などに対応 (Ctrl+V でも貼り付け可)</div>
+          </div>
+          <input type="file" id="ai-file-input" accept="image/*" style="display:none" onchange="handleAiFileSelect(event)"/>
+
+          <!-- 画像プレビュー -->
+          <div class="ai-img-preview" id="ai-img-preview">
+            <img id="ai-img-tag" src="" alt=""/>
+            <button class="ai-img-remove" onclick="clearAiImage()">✕</button>
+          </div>
+
+          <!-- 解析ボタン -->
+          <button class="ai-analyze-btn" id="ai-analyze-btn" onclick="runAiAnalyze()">
+            <span class="ai-btn-icon">✨</span>
+            <span id="ai-btn-text">AI解析してカレンダーに追加</span>
+          </button>
+        </div>
+
+        <!-- 結果エリア -->
+        <div class="ai-result-area" id="ai-result-area" style="display:none">
+          <div id="ai-result-content"></div>
+        </div>
+
+        <!-- 使い方ガイド -->
+        <div class="ai-guide">
+          <div class="ai-guide-title">💡 使い方のヒント</div>
+          <div class="ai-guide-items">
+            <div class="ai-guide-item">
+              <div class="ai-guide-num">1</div>
+              <div>X(Twitter) やInstagramの就活情報投稿をコピー → テキスト欄に貼り付け</div>
+            </div>
+            <div class="ai-guide-item">
+              <div class="ai-guide-num">2</div>
+              <div>企業からのメール本文をそのまま貼り付けてもOK（締切・説明会日程を自動抽出）</div>
+            </div>
+            <div class="ai-guide-item">
+              <div class="ai-guide-num">3</div>
+              <div>スクリーンショット画像を追加すると、画像内の文字も読み取って解析</div>
+            </div>
+            <div class="ai-guide-item">
+              <div class="ai-guide-num">4</div>
+              <div>「AI解析」ボタンを押すと自動でカテゴリ分類・日程抽出・カレンダー登録まで完了</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -703,28 +843,6 @@
   </div>
 </div>
 
-<!-- SNS Analysis Panel -->
-<button class="sns-fab" onclick="toggleSnsPanel()" title="SNS情報を追加">✨</button>
-<div class="sns-panel" id="sns-panel">
-  <div>
-    <div class="sns-panel-title">
-      <span>✨ SNS情報をAI解析</span>
-      <button onclick="toggleSnsPanel()" style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px">✕</button>
-    </div>
-    <div class="sns-panel-subtitle">X(Twitter)・Instagram・メール本文などを貼り付けてください</div>
-  </div>
-  <textarea class="sns-textarea" id="sns-text" placeholder="例: 【締切3/31】〇〇コンサルティング サマーインターンエントリー受付中！今すぐ登録→ https://..."></textarea>
-  <div class="sns-image-preview" id="sns-img-preview">
-    <img id="sns-img-tag" src="" alt=""/>
-    <button class="remove-img" onclick="clearImage()">✕</button>
-  </div>
-  <input type="file" id="sns-file-input" accept="image/*" style="display:none" onchange="handleImageUpload(event)"/>
-  <div class="sns-actions">
-    <button class="sns-upload-btn" onclick="document.getElementById('sns-file-input').click()">🖼 画像</button>
-    <button class="sns-analyze-btn" id="sns-btn" onclick="analyzeSns()">🤖 AI解析してカレンダーに追加</button>
-  </div>
-  <div class="sns-result" id="sns-result"></div>
-</div>
 
 <script>
 const CATS = {
@@ -794,73 +912,127 @@ async function seedEvents() {
   } catch(e) { events = SEED_EVENTS; }
 }
 
-// ─── SNS Panel ────────────────────────────────────────────────────────────────
-let snsImageBase64 = null, snsImageType = null;
+// ─── AI解析ビュー ──────────────────────────────────────────────────────────────
+let aiImageBase64 = null, aiImageType = null;
 
-function toggleSnsPanel() {
-  const p = document.getElementById('sns-panel');
-  p.classList.toggle('open');
-}
-function clearImage() {
-  snsImageBase64 = null; snsImageType = null;
-  document.getElementById('sns-img-preview').style.display = 'none';
-  document.getElementById('sns-file-input').value = '';
-}
-function handleImageUpload(e) {
-  const file = e.target.files[0]; if (!file) return;
-  snsImageType = file.type;
+function loadFileToAiPreview(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  aiImageType = file.type;
   const reader = new FileReader();
   reader.onload = ev => {
-    snsImageBase64 = ev.target.result.split(',')[1];
-    document.getElementById('sns-img-tag').src = ev.target.result;
-    document.getElementById('sns-img-preview').style.display = 'block';
+    aiImageBase64 = ev.target.result.split(',')[1];
+    document.getElementById('ai-img-tag').src = ev.target.result;
+    document.getElementById('ai-img-preview').style.display = 'block';
+    document.getElementById('ai-drop-zone').style.display = 'none';
   };
   reader.readAsDataURL(file);
 }
-async function analyzeSns() {
-  const text = document.getElementById('sns-text').value.trim();
-  if (!text && !snsImageBase64) { alert('テキストまたは画像を入力してください'); return; }
-  const btn = document.getElementById('sns-btn');
-  btn.disabled = true; btn.textContent = '🔄 AI解析中...';
-  const resultBox = document.getElementById('sns-result');
-  resultBox.className = 'sns-result'; resultBox.innerHTML = '';
+function handleAiFileSelect(e) { loadFileToAiPreview(e.target.files[0]); }
+function handleAiDrop(e) {
+  e.preventDefault();
+  document.getElementById('ai-drop-zone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  loadFileToAiPreview(file);
+}
+function clearAiImage() {
+  aiImageBase64 = null; aiImageType = null;
+  document.getElementById('ai-img-preview').style.display = 'none';
+  document.getElementById('ai-drop-zone').style.display = '';
+  document.getElementById('ai-file-input').value = '';
+}
+
+// Ctrl+V でクリップボードから画像を貼り付け
+document.addEventListener('paste', e => {
+  if (!document.getElementById('ai-view').classList.contains('active')) return;
+  const items = e.clipboardData && e.clipboardData.items;
+  if (!items) return;
+  for (const item of items) {
+    if (item.type.startsWith('image/')) {
+      loadFileToAiPreview(item.getAsFile());
+      break;
+    }
+  }
+});
+
+async function runAiAnalyze() {
+  const text = document.getElementById('ai-text').value.trim();
+  if (!text && !aiImageBase64) {
+    document.getElementById('ai-result-content').innerHTML = '<div class="ai-result-error">⚠️ テキストまたは画像を入力してください</div>';
+    document.getElementById('ai-result-area').style.display = '';
+    return;
+  }
+  const btn = document.getElementById('ai-analyze-btn');
+  const btnText = document.getElementById('ai-btn-text');
+  btn.disabled = true;
+  btnText.textContent = 'AI解析中... しばらくお待ちください';
+
+  const resultArea = document.getElementById('ai-result-area');
+  const resultContent = document.getElementById('ai-result-content');
+  resultContent.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text2)">🔄 AIが情報を解析中です...</div>';
+  resultArea.style.display = '';
 
   try {
-    const payload = { text };
-    if (snsImageBase64) { payload.imageBase64 = snsImageBase64; payload.imageMediaType = snsImageType; }
+    const payload = { text: text || '' };
+    if (aiImageBase64) { payload.imageBase64 = aiImageBase64; payload.imageMediaType = aiImageType; }
+
     const r = await fetch(API + '/api/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
     const data = await r.json();
+
     if (data.error) {
-      resultBox.innerHTML = `<div style="color:#ef4444">❌ エラー: ${data.error}</div>`;
-      resultBox.classList.add('show'); return;
+      resultContent.innerHTML = `<div class="ai-result-error">❌ エラー: ${data.error}<br><br>💡 ヒント: ローカルサーバーが起動していない場合は <code>node server.js</code> を実行してください（ANTHROPIC_API_KEY の設定も必要です）</div>`;
+      return;
     }
     if (!data.events || data.events.length === 0) {
-      resultBox.innerHTML = '<div>就活情報が見つかりませんでした。</div>';
-      resultBox.classList.add('show'); return;
+      resultContent.innerHTML = '<div class="ai-result-empty">🔍 就活情報が見つかりませんでした。<br>より具体的な情報（会社名・日程・イベント名など）を含む文章を貼り付けてみてください。</div>';
+      return;
     }
-    // Reload events
-    const evRes = await fetch(API + '/api/events');
-    events = await evRes.json();
-    document.getElementById('api-status-text').textContent = `接続済み (${events.length}件)`;
-    renderCalendar(); renderList(); renderUpcoming();
 
-    resultBox.innerHTML = `<div style="color:#10b981;font-weight:700;margin-bottom:8px">✅ ${data.events.length}件を追加しました</div>` +
-      data.events.map(ev => `<div class="sns-result-item">
-        <div class="sns-result-company">${ev.icon||'📌'} ${ev.company}</div>
-        <div class="sns-result-desc">${ev.date} — ${ev.desc}</div>
-      </div>`).join('');
-    resultBox.classList.add('show');
-    document.getElementById('sns-text').value = '';
-    clearImage();
+    // イベントをリロード
+    try {
+      const evRes = await fetch(API + '/api/events');
+      events = await evRes.json();
+      document.getElementById('api-status-text').textContent = `接続済み (${events.length}件)`;
+      renderCalendar(); renderList(); renderUpcoming();
+    } catch(_) {}
+
+    resultContent.innerHTML = `
+      <div class="ai-result-success">
+        <span style="font-size:24px">✅</span>
+        <span>${data.events.length}件の就活情報をカレンダーに追加しました</span>
+      </div>` +
+      data.events.map(ev => {
+        const c = CATS[ev.cat]||CATS.other;
+        const s = STATUSES[ev.status]||STATUSES.entry;
+        return `<div class="ai-result-card" style="border-left-color:${c.color}">
+          <div class="ai-result-icon">${ev.icon||'📌'}</div>
+          <div style="flex:1;min-width:0">
+            <div class="ai-result-company">${ev.company}</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:2px">${ev.desc}</div>
+            <div class="ai-result-meta">
+              <span>📅 ${ev.date}</span>
+              <span class="ai-result-tag" style="background:${s.bg};color:${s.color}">${s.label}</span>
+              <span class="ai-result-tag" style="background:${c.bg};color:${c.color}">${c.label}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('') +
+      `<div style="text-align:center;margin-top:12px">
+        <button onclick="switchView('calendar',document.querySelector('.view-btn'))" style="padding:8px 20px;background:var(--surface2);border:1px solid var(--border);border-radius:9px;color:var(--text);cursor:pointer;font-size:12px">📅 カレンダーで確認</button>
+      </div>`;
+
+    // 入力をクリア
+    document.getElementById('ai-text').value = '';
+    clearAiImage();
+
   } catch(e) {
-    resultBox.innerHTML = `<div style="color:#ef4444">❌ サーバーに接続できません。server.jsを起動してください。</div>`;
-    resultBox.classList.add('show');
+    resultContent.innerHTML = `<div class="ai-result-error">❌ サーバーに接続できません。<br><br>ローカルサーバーを起動してください：<br><code>cd job-hunting-calendar && node server.js</code></div>`;
   } finally {
-    btn.disabled = false; btn.textContent = '🤖 AI解析してカレンダーに追加';
+    btn.disabled = false;
+    btnText.textContent = 'AI解析してカレンダーに追加';
   }
 }
 
@@ -1075,6 +1247,7 @@ function switchView(v,btn){
   document.getElementById('calendar-view').style.display=v==='calendar'?'':'none';
   document.getElementById('list-view').classList.toggle('active',v==='list');
   document.getElementById('mypage-view').classList.toggle('active',v==='mypage');
+  document.getElementById('ai-view').classList.toggle('active',v==='ai');
   if(v==='list')renderList();
   if(v==='mypage')renderMyPage();
 }
